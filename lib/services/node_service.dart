@@ -58,6 +58,7 @@ class NodeService extends ChangeNotifier {
       // and update it if needed
       final coin = coinFromPrettyName(defaultNode.coinName);
       final primaryNode = getPrimaryNodeFor(coin: coin);
+      
       if (primaryNode != null && primaryNode.id == defaultNode.id) {
         await setPrimaryNodeFor(
           coin: coin,
@@ -66,6 +67,11 @@ class NodeService extends ChangeNotifier {
             isFailover: primaryNode.isFailover,
             trusted: primaryNode.trusted,
           ),
+        );
+      } else if (primaryNode == null) {
+        await setPrimaryNodeFor(
+          coin: coin,
+          node: defaultNode,
         );
       }
     }

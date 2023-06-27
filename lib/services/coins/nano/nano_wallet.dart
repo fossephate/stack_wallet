@@ -605,6 +605,18 @@ class NanoWallet extends CoinServiceAPI
   @override
   Future<void> initializeExisting() async {
     await _prefs.init();
+    if ((await currentReceivingAddress) == null) {
+      final address = Address(
+        walletId: walletId,
+        value: await getAddressFromMnemonic(),
+        publicKey: [], // TODO: add public key
+        derivationIndex: 0,
+        derivationPath: null,
+        type: AddressType.banano,
+        subType: AddressSubType.receiving,
+      );
+      await db.putAddress(address);
+    }
   }
 
   @override
@@ -930,6 +942,7 @@ class NanoWallet extends CoinServiceAPI
       headers: headers,
       body: infoBody,
     );
+    
     final infoData = jsonDecode(infoResponse.body);
 
     final int? height = int.tryParse(

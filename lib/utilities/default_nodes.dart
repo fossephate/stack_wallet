@@ -34,6 +34,8 @@ abstract class DefaultNodes {
         bitcoincashTestnet,
         dogecoinTestnet,
         firoTestnet,
+        nano,
+        banano,
       ];
 
   static NodeModel get bitcoin => NodeModel(
@@ -182,7 +184,7 @@ abstract class DefaultNodes {
       isDown: false);
 
   static NodeModel get nano => NodeModel(
-      host: "https://rainstorm.city/api",
+      host: "https://app.natrium.io/api",
       port: 443,
       name: defaultName,
       id: _nodeId(Coin.nano),
