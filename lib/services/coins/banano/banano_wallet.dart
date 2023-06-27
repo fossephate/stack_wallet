@@ -597,11 +597,14 @@ class BananoWallet extends CoinServiceAPI
   @override
   Future<void> initializeExisting() async {
     await _prefs.init();
-    if ((await currentReceivingAddress) == null) {
+
+    final address = await _currentReceivingAddress;
+    if (address == null) {
+      final publicAddress = await getAddressFromMnemonic();
       final address = Address(
         walletId: walletId,
-        value: await getAddressFromMnemonic(),
-        publicKey: [], // TODO: add public key
+        value: publicAddress,
+        publicKey: [],
         derivationIndex: 0,
         derivationPath: null,
         type: AddressType.banano,
